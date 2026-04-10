@@ -1,4 +1,4 @@
-# 📈 Simple Trading System
+# Simple Trading System
 
 A lightweight client-server trading system written in pure Python (no dependencies).
 It demonstrates a real-world order-flow architecture: a client sends orders over TCP,
@@ -17,6 +17,16 @@ and a server runs a matching engine that fills, queues, or rejects them.
 | **Live price simulation** | Market prices fluctuate ±0.5% each evaluation cycle |
 | **Rejection handling** | Unknown symbols are rejected with an error message |
 | **Heartbeat** | Server pings idle clients; client handles silently |
+
+---
+
+## Key Architectural Decisions
+
+* Used length-prefixed binary headers to ensure message integrity over TCP.
+
+* Implemented a thread-safe producer-consumer model for outbound messages to prevent slow-client blocking.
+
+* Built a modular MatchingEngine verified by a comprehensive pytest suite.
 
 ---
 
@@ -50,8 +60,8 @@ trading_system/
 ### 1. Clone
 
 ```bash
-git clone https://github.com/your-username/trading-system.git
-cd trading-system
+git clone https://github.com/Peypey-ryd/Basic-Trading-Engine.git
+cd main
 ```
 
 ### 2. Start the server
@@ -196,22 +206,3 @@ All messages are newline-delimited JSON over a plain TCP socket.
 02:21:29 [CLIENT] INFO   🚫 CANCELLED  order_id=789C866B
 02:21:29 [CLIENT] WARNING   ❌ REJECT  BUY FAKE x1  [6335C040]
 ```
-
----
-
-## Extending the Project
-
-Ideas for further development:
-
-- **Order book** — maintain a real bid/ask book per symbol instead of random prices
-- **Partial fills** — split large orders across multiple price levels
-- **Persistence** — write order history to SQLite or a log file
-- **TLS** — wrap the socket in `ssl.wrap_socket()` for encrypted transport
-- **REST API** — swap the raw socket for FastAPI/Flask endpoints
-- **Web UI** — add a simple dashboard to visualize the order book in real time
-
----
-
-## License
-
-MIT — free to use, modify, and distribute.
